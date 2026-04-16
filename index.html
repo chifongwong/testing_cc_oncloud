@@ -17,14 +17,9 @@
       --accent-down: #f44336;
       --accent-neutral: #9e9e9e;
       --accent-active: #9e9e9e;
-      --chart-line: #2196f3;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: var(--bg-primary);
@@ -33,6 +28,93 @@
       min-height: 100vh;
       padding-bottom: 2rem;
     }
+
+    /* ── SETUP MODAL ── */
+    #setup-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 13, 13, 0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 400;
+      padding: 1rem;
+    }
+
+    #setup-modal.hidden { display: none; }
+
+    .setup-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 440px;
+      width: 100%;
+    }
+
+    .setup-card h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+
+    .setup-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .setup-card a {
+      color: #2196f3;
+      text-decoration: none;
+    }
+
+    .setup-card a:hover { text-decoration: underline; }
+
+    .setup-steps {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+      padding-left: 1rem;
+    }
+
+    .setup-steps li { margin-bottom: 0.15rem; }
+
+    #api-key-input {
+      width: 100%;
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 0.65rem 0.85rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    #api-key-input:focus { border-color: #2196f3; }
+
+    #save-key-btn {
+      width: 100%;
+      background: #2196f3;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.7rem;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background 0.15s;
+    }
+
+    #save-key-btn:hover { background: #1976d2; }
 
     /* ── HEADER ── */
     #header {
@@ -53,12 +135,9 @@
       font-size: 1.5rem;
       font-weight: 700;
       letter-spacing: 0.1em;
-      color: var(--text-primary);
     }
 
-    .logo span {
-      color: var(--accent-active);
-    }
+    .logo span { color: var(--accent-active); }
 
     .price-block {
       display: flex;
@@ -81,15 +160,8 @@
       color: var(--accent-neutral);
     }
 
-    #price-change.up {
-      background: rgba(0, 200, 83, 0.15);
-      color: var(--accent-up);
-    }
-
-    #price-change.down {
-      background: rgba(244, 67, 54, 0.15);
-      color: var(--accent-down);
-    }
+    #price-change.up   { background: rgba(0, 200, 83, 0.15);   color: var(--accent-up);   }
+    #price-change.down { background: rgba(244, 67, 54, 0.15);   color: var(--accent-down); }
 
     .header-meta {
       margin-left: auto;
@@ -108,17 +180,23 @@
       letter-spacing: 0.05em;
     }
 
-    #market-status.open {
-      background: rgba(0, 200, 83, 0.2);
-      color: var(--accent-up);
-    }
+    #market-status.open   { background: rgba(0, 200, 83, 0.2);  color: var(--accent-up);   }
+    #market-status.closed { background: rgba(158, 158, 158, 0.2); color: var(--text-muted); }
 
-    #market-status.closed {
-      background: rgba(158, 158, 158, 0.2);
+    #settings-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
       color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.35rem 0.6rem;
+      transition: all 0.15s;
     }
 
-    /* ── MAIN CONTENT ── */
+    #settings-btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+    /* ── MAIN ── */
     main {
       max-width: 1400px;
       margin: 0 auto;
@@ -163,7 +241,7 @@
       color: var(--text-primary);
     }
 
-    /* ── CHART SECTION ── */
+    /* ── CHART ── */
     #chart-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -188,10 +266,7 @@
       text-transform: uppercase;
     }
 
-    #range-selector {
-      display: flex;
-      gap: 0.25rem;
-    }
+    #range-selector { display: flex; gap: 0.25rem; }
 
     .range-btn {
       background: transparent;
@@ -206,24 +281,13 @@
       transition: all 0.15s ease;
     }
 
-    .range-btn:hover {
-      background: var(--bg-card-hover);
-      color: var(--text-primary);
-      border-color: var(--text-muted);
-    }
+    .range-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--text-muted); }
 
-    .range-btn.active {
-      background: var(--accent-active);
-      border-color: var(--accent-active);
-      color: #000;
-    }
+    .range-btn.active { background: var(--accent-active); border-color: var(--accent-active); color: #000; }
 
-    .chart-container {
-      position: relative;
-      height: 320px;
-    }
+    .chart-container { position: relative; height: 320px; }
 
-    /* ── LOADING OVERLAY ── */
+    /* ── LOADING ── */
     #loading-overlay {
       position: fixed;
       inset: 0;
@@ -237,30 +301,21 @@
       transition: opacity 0.2s ease;
     }
 
-    #loading-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+    #loading-overlay.hidden { opacity: 0; pointer-events: none; }
 
     .spinner {
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       border: 3px solid var(--border);
       border-top-color: var(--accent-active);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    #loading-overlay p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
+    #loading-overlay p { font-size: 0.85rem; color: var(--text-muted); }
 
-    /* ── ERROR BANNER ── */
+    /* ── ERROR ── */
     #error-banner {
       position: fixed;
       bottom: 1.5rem;
@@ -278,13 +333,8 @@
       font-size: 0.85rem;
     }
 
-    #error-banner.hidden {
-      display: none;
-    }
-
-    #error-message {
-      color: #f44336;
-    }
+    #error-banner.hidden { display: none; }
+    #error-message { color: #f44336; }
 
     #retry-btn {
       background: #f44336;
@@ -299,11 +349,8 @@
       white-space: nowrap;
     }
 
-    #retry-btn:hover {
-      background: #e53935;
-    }
+    #retry-btn:hover { background: #e53935; }
 
-    /* ── FOOTER ── */
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -313,46 +360,39 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      #header {
-        padding: 0.75rem 1rem;
-        gap: 0.75rem;
-      }
-
-      .logo {
-        font-size: 1.2rem;
-      }
-
-      #current-price {
-        font-size: 1.5rem;
-      }
-
-      .header-meta {
-        margin-left: 0;
-        text-align: left;
-        width: 100%;
-      }
-
-      main {
-        padding: 1rem;
-      }
-
-      #metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .chart-container {
-        height: 240px;
-      }
+      #header { padding: 0.75rem 1rem; gap: 0.75rem; }
+      .logo { font-size: 1.2rem; }
+      #current-price { font-size: 1.5rem; }
+      .header-meta { margin-left: 0; text-align: left; width: 100%; }
+      main { padding: 1rem; }
+      #metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-container { height: 240px; }
     }
 
     @media (max-width: 420px) {
-      #metrics-grid {
-        grid-template-columns: 1fr;
-      }
+      #metrics-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+
+  <!-- API KEY SETUP MODAL -->
+  <div id="setup-modal">
+    <div class="setup-card">
+      <h2>Connect to Finnhub</h2>
+      <p>
+        This dashboard uses <a href="https://finnhub.io" target="_blank" rel="noopener">Finnhub</a>
+        for real-time TSLA data. Get a free API key — it takes under a minute.
+      </p>
+      <ol class="setup-steps">
+        <li>Go to <a href="https://finnhub.io/register" target="_blank" rel="noopener">finnhub.io/register</a> and create a free account</li>
+        <li>Copy your API token from the dashboard</li>
+        <li>Paste it below and click Connect</li>
+      </ol>
+      <input type="text" id="api-key-input" placeholder="Paste your Finnhub API token here" autocomplete="off" spellcheck="false" />
+      <button id="save-key-btn">Connect</button>
+    </div>
+  </div>
 
   <!-- HEADER -->
   <header id="header">
@@ -365,47 +405,22 @@
       <div><span id="market-status" class="closed">--</span></div>
       <div id="last-updated">--</div>
     </div>
+    <button id="settings-btn" title="Change API key">&#9881;</button>
   </header>
 
   <!-- MAIN -->
   <main>
-    <!-- METRICS GRID -->
     <section id="metrics-grid">
-      <div class="card">
-        <div class="card-label">Market Cap</div>
-        <div class="card-value" id="market-cap">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Open</div>
-        <div class="card-value" id="open-price">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Prev Close</div>
-        <div class="card-value" id="prev-close">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Volume</div>
-        <div class="card-value" id="volume">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Avg Volume</div>
-        <div class="card-value" id="avg-volume">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">P/E Ratio</div>
-        <div class="card-value" id="pe-ratio">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">52W High</div>
-        <div class="card-value" id="wk52-high">--</div>
-      </div>
-      <div class="card">
-        <div class="card-label">52W Low</div>
-        <div class="card-value" id="wk52-low">--</div>
-      </div>
+      <div class="card"><div class="card-label">Market Cap</div><div class="card-value" id="market-cap">--</div></div>
+      <div class="card"><div class="card-label">Open</div><div class="card-value" id="open-price">--</div></div>
+      <div class="card"><div class="card-label">Prev Close</div><div class="card-value" id="prev-close">--</div></div>
+      <div class="card"><div class="card-label">Volume (Avg 10D)</div><div class="card-value" id="volume">--</div></div>
+      <div class="card"><div class="card-label">Day High</div><div class="card-value" id="day-high">--</div></div>
+      <div class="card"><div class="card-label">P/E Ratio</div><div class="card-value" id="pe-ratio">--</div></div>
+      <div class="card"><div class="card-label">52W High</div><div class="card-value" id="wk52-high">--</div></div>
+      <div class="card"><div class="card-label">52W Low</div><div class="card-value" id="wk52-low">--</div></div>
     </section>
 
-    <!-- CHART SECTION -->
     <section id="chart-section">
       <div id="chart-header">
         <span id="chart-title">Price History</span>
@@ -422,13 +437,11 @@
       </div>
     </section>
 
-    <footer>
-      Data provided by Yahoo Finance · Refreshes every 30s · For informational purposes only
-    </footer>
+    <footer>Data provided by Finnhub &middot; Refreshes every 30s &middot; For informational purposes only</footer>
   </main>
 
   <!-- LOADING OVERLAY -->
-  <div id="loading-overlay">
+  <div id="loading-overlay" class="hidden">
     <div class="spinner"></div>
     <p>Fetching TSLA data&hellip;</p>
   </div>
@@ -440,22 +453,19 @@
   </div>
 
   <script>
-    // ── CONFIG ──────────────────────────────────────────────────────────────
+    // ── CONFIG ───────────────────────────────────────────────────────────────
     const TICKER = 'TSLA';
     const REFRESH_INTERVAL_MS = 30_000;
+    const FINNHUB_BASE = 'https://finnhub.io/api/v1';
 
-    const YF_CHART_BASE = `https://query1.finance.yahoo.com/v8/finance/chart/${TICKER}`;
-    const YF_QUOTE_URL  = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${TICKER}?modules=summaryDetail,defaultKeyStatistics,price`;
-    const CORS_PROXY    = 'https://corsproxy.io/?';
-    // Fallback proxy (uncomment if corsproxy.io is down):
-    // const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+    let FINNHUB_KEY = localStorage.getItem('finnhubApiKey') || '';
 
-    const RANGE_CONFIG = {
-      '1D': { range: '1d',  interval: '5m'  },
-      '5D': { range: '5d',  interval: '15m' },
-      '1M': { range: '1mo', interval: '1d'  },
-      '3M': { range: '3mo', interval: '1d'  },
-      '1Y': { range: '1y',  interval: '1wk' },
+    const RANGE_CANDLE = {
+      '1D': { resolution: '5',  from: () => Math.floor(Date.now() / 1000) - 86400 },
+      '5D': { resolution: '15', from: () => Math.floor(Date.now() / 1000) - 86400 * 7 },
+      '1M': { resolution: 'D',  from: () => Math.floor(Date.now() / 1000) - 86400 * 35 },
+      '3M': { resolution: 'D',  from: () => Math.floor(Date.now() / 1000) - 86400 * 95 },
+      '1Y': { resolution: 'W',  from: () => Math.floor(Date.now() / 1000) - 86400 * 370 },
     };
 
     // ── STATE ────────────────────────────────────────────────────────────────
@@ -464,6 +474,10 @@
     let refreshTimer  = null;
 
     // ── DOM REFS ─────────────────────────────────────────────────────────────
+    const elSetupModal    = document.getElementById('setup-modal');
+    const elApiKeyInput   = document.getElementById('api-key-input');
+    const elSaveKeyBtn    = document.getElementById('save-key-btn');
+    const elSettingsBtn   = document.getElementById('settings-btn');
     const elCurrentPrice  = document.getElementById('current-price');
     const elPriceChange   = document.getElementById('price-change');
     const elMarketStatus  = document.getElementById('market-status');
@@ -472,7 +486,7 @@
     const elOpenPrice     = document.getElementById('open-price');
     const elPrevClose     = document.getElementById('prev-close');
     const elVolume        = document.getElementById('volume');
-    const elAvgVolume     = document.getElementById('avg-volume');
+    const elDayHigh       = document.getElementById('day-high');
     const elPeRatio       = document.getElementById('pe-ratio');
     const elWk52High      = document.getElementById('wk52-high');
     const elWk52Low       = document.getElementById('wk52-low');
@@ -482,12 +496,12 @@
 
     // ── FORMATTERS ───────────────────────────────────────────────────────────
     function fmtPrice(n) {
-      if (n == null) return '--';
+      if (n == null || isNaN(n)) return '--';
       return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     function fmtLarge(n) {
-      if (n == null) return '--';
+      if (n == null || isNaN(n)) return '--';
       if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
       if (n >= 1e9)  return '$' + (n / 1e9).toFixed(2) + 'B';
       if (n >= 1e6)  return '$' + (n / 1e6).toFixed(2) + 'M';
@@ -495,7 +509,7 @@
     }
 
     function fmtVolume(n) {
-      if (n == null) return '--';
+      if (n == null || isNaN(n)) return '--';
       if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
       if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
       if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
@@ -503,225 +517,152 @@
     }
 
     function fmtRatio(n) {
-      if (n == null) return '--';
+      if (n == null || isNaN(n)) return '--';
       return n.toFixed(2) + 'x';
     }
 
     // ── UI HELPERS ───────────────────────────────────────────────────────────
-    function showLoading(visible) {
-      elLoadingOverlay.classList.toggle('hidden', !visible);
-    }
-
-    function showError(msg) {
-      elErrorMessage.textContent = msg;
-      elErrorBanner.classList.remove('hidden');
-    }
-
-    function hideError() {
-      elErrorBanner.classList.add('hidden');
-    }
+    function showLoading(v)  { elLoadingOverlay.classList.toggle('hidden', !v); }
+    function showError(msg)  { elErrorMessage.textContent = msg; elErrorBanner.classList.remove('hidden'); }
+    function hideError()     { elErrorBanner.classList.add('hidden'); }
 
     function setAccentColor(isUp) {
-      const color = isUp ? 'var(--accent-up)' : 'var(--accent-down)';
-      document.documentElement.style.setProperty('--accent-active', color);
-      // Update active range button immediately
+      const hex = isUp ? '#00c853' : '#f44336';
+      document.documentElement.style.setProperty('--accent-active', isUp ? 'var(--accent-up)' : 'var(--accent-down)');
       document.querySelectorAll('.range-btn.active').forEach(btn => {
-        btn.style.background = isUp ? '#00c853' : '#f44336';
-        btn.style.borderColor = isUp ? '#00c853' : '#f44336';
+        btn.style.background  = hex;
+        btn.style.borderColor = hex;
       });
     }
 
-    // ── FETCH WITH CORS FALLBACK ─────────────────────────────────────────────
-    async function fetchWithCORSFallback(url) {
-      // Attempt 1: direct fetch
-      try {
-        const res = await fetch(url, {
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (res.ok) return res.json();
-      } catch (_) {
-        // CORS or network error — fall through to proxy
-      }
-
-      // Attempt 2: CORS proxy
-      const proxied = CORS_PROXY + encodeURIComponent(url);
-      const res = await fetch(proxied, { signal: AbortSignal.timeout(12000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status} — proxy request failed`);
+    // ── API ───────────────────────────────────────────────────────────────────
+    async function apiFetch(path) {
+      const url = `${FINNHUB_BASE}${path}&token=${FINNHUB_KEY}`;
+      const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status} from Finnhub`);
       return res.json();
     }
 
-    // ── DATA FETCHERS ────────────────────────────────────────────────────────
-    async function fetchChartData(range, interval) {
-      const url = `${YF_CHART_BASE}?range=${range}&interval=${interval}&includePrePost=false`;
-      const data = await fetchWithCORSFallback(url);
-      const result = data.chart.result[0];
-      const rawTimestamps = result.timestamp || [];
-      const rawCloses     = result.indicators.quote[0].close || [];
-
-      // Filter out null closes (gaps in intraday data)
-      const pairs = rawTimestamps
-        .map((ts, i) => [ts, rawCloses[i]])
-        .filter(([, c]) => c != null);
-
-      return {
-        timestamps:   pairs.map(([ts]) => ts),
-        closes:       pairs.map(([, c]) => c),
-        currentPrice: result.meta.regularMarketPrice,
-        prevClose:    result.meta.chartPreviousClose,
-        marketState:  result.meta.marketState,
-      };
+    async function fetchQuote() {
+      return apiFetch(`/quote?symbol=${TICKER}`);
+      // Returns: { c: current, d: change, dp: changePct, h: high, l: low, o: open, pc: prevClose }
     }
 
-    async function fetchQuoteData() {
-      const data = await fetchWithCORSFallback(YF_QUOTE_URL);
-      const r = data.quoteSummary.result[0];
-      const sd = r.summaryDetail || {};
-      const pr = r.price || {};
-      return {
-        marketCap:      sd.marketCap?.raw      ?? pr.marketCap?.raw,
-        peRatio:        sd.trailingPE?.raw,
-        fiftyTwoWkHigh: sd.fiftyTwoWeekHigh?.raw,
-        fiftyTwoWkLow:  sd.fiftyTwoWeekLow?.raw,
-        volume:         sd.volume?.raw         ?? pr.regularMarketVolume?.raw,
-        avgVolume:      sd.averageVolume?.raw,
-        open:           sd.open?.raw           ?? pr.regularMarketOpen?.raw,
-        prevClose:      sd.previousClose?.raw  ?? pr.regularMarketPreviousClose?.raw,
-      };
+    async function fetchMetrics() {
+      return apiFetch(`/stock/metric?symbol=${TICKER}&metric=all`);
+      // Returns: { metric: { marketCapitalization, peAnnual, peTTM, 52WeekHigh, 52WeekLow, 10DayAverageTradingVolume } }
     }
 
-    // ── CHART RENDERER ───────────────────────────────────────────────────────
-    function formatLabel(ts, range) {
+    async function fetchMarketStatus() {
+      return apiFetch(`/stock/market-status?exchange=US`);
+      // Returns: { isOpen: bool }
+    }
+
+    async function fetchCandles(range) {
+      const { resolution, from } = RANGE_CANDLE[range];
+      const now = Math.floor(Date.now() / 1000);
+      const data = await apiFetch(`/stock/candle?symbol=${TICKER}&resolution=${resolution}&from=${from()}&to=${now}`);
+      if (data.s === 'no_data') throw new Error('No chart data available for this range');
+      return { timestamps: data.t, closes: data.c };
+    }
+
+    // ── CHART ────────────────────────────────────────────────────────────────
+    function formatLabel(ts) {
       const d = new Date(ts * 1000);
-      if (range === '1D' || range === '5D') {
-        return d.toLocaleString('en-US', {
-          month: 'short', day: 'numeric',
-          hour: 'numeric', minute: '2-digit', hour12: true,
-        });
-      }
+      if (currentRange === '1D' || currentRange === '5D')
+        return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
     }
 
     function renderChart(timestamps, closes, isUp) {
-      const ctx = document.getElementById('price-chart').getContext('2d');
+      const ctx   = document.getElementById('price-chart').getContext('2d');
       const color = isUp ? '#00c853' : '#f44336';
+      const grad  = ctx.createLinearGradient(0, 0, 0, 320);
+      grad.addColorStop(0, color + '35');
+      grad.addColorStop(1, color + '00');
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, 320);
-      gradient.addColorStop(0, color + '35');
-      gradient.addColorStop(1, color + '00');
-
-      const labels = timestamps.map(ts => formatLabel(ts, currentRange));
-
-      const config = {
+      const cfg = {
         type: 'line',
         data: {
-          labels,
+          labels: timestamps.map(formatLabel),
           datasets: [{
             data: closes,
-            borderColor: color,
-            borderWidth: 2,
-            backgroundColor: gradient,
-            fill: true,
-            tension: 0.2,
-            pointRadius: 0,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: color,
-            pointHoverBorderColor: '#0d0d0d',
-            pointHoverBorderWidth: 2,
+            borderColor: color, borderWidth: 2,
+            backgroundColor: grad, fill: true, tension: 0.2,
+            pointRadius: 0, pointHoverRadius: 5,
+            pointHoverBackgroundColor: color, pointHoverBorderColor: '#0d0d0d', pointHoverBorderWidth: 2,
           }],
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
           plugins: {
             legend: { display: false },
             tooltip: {
-              backgroundColor: '#1a1a1a',
-              borderColor: '#2a2a2a',
-              borderWidth: 1,
-              titleColor: '#808080',
-              bodyColor: '#f0f0f0',
-              padding: 10,
-              callbacks: {
-                label: ctx => ` $${ctx.parsed.y != null ? ctx.parsed.y.toFixed(2) : 'N/A'}`,
-              },
+              backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', borderWidth: 1,
+              titleColor: '#808080', bodyColor: '#f0f0f0', padding: 10,
+              callbacks: { label: c => ` $${c.parsed.y != null ? c.parsed.y.toFixed(2) : 'N/A'}` },
             },
           },
           scales: {
             x: {
-              grid: { color: '#1a1a1a' },
-              ticks: {
-                color: '#606060',
-                maxTicksLimit: 8,
-                maxRotation: 0,
-                font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 },
-              },
-              border: { color: '#2a2a2a' },
+              grid: { color: '#1a1a1a' }, border: { color: '#2a2a2a' },
+              ticks: { color: '#606060', maxTicksLimit: 8, maxRotation: 0, font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 } },
             },
             y: {
               position: 'right',
-              grid: { color: '#1a1a1a' },
-              ticks: {
-                color: '#606060',
-                font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 },
-                callback: val => '$' + val.toFixed(0),
-              },
-              border: { color: '#2a2a2a' },
+              grid: { color: '#1a1a1a' }, border: { color: '#2a2a2a' },
+              ticks: { color: '#606060', font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 }, callback: v => '$' + v.toFixed(0) },
             },
           },
         },
       };
 
       if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(ctx, config);
+      chartInstance = new Chart(ctx, cfg);
     }
 
     // ── UI UPDATERS ──────────────────────────────────────────────────────────
-    function updateHeader(currentPrice, prevClose, marketState) {
-      const change    = currentPrice - prevClose;
-      const changePct = (change / prevClose) * 100;
-      const isUp      = change >= 0;
-      const sign      = isUp ? '+' : '';
-
-      elCurrentPrice.textContent = fmtPrice(currentPrice);
-      elPriceChange.textContent  = `${sign}${fmtPrice(change)} (${sign}${changePct.toFixed(2)}%)`;
+    function updateHeader(quote, isOpen) {
+      const isUp = quote.d >= 0;
+      const sign = isUp ? '+' : '';
+      elCurrentPrice.textContent = fmtPrice(quote.c);
+      elPriceChange.textContent  = `${sign}${fmtPrice(quote.d)} (${sign}${quote.dp.toFixed(2)}%)`;
       elPriceChange.className    = isUp ? 'up' : 'down';
-
-      const isMarketOpen = marketState === 'REGULAR';
-      elMarketStatus.textContent = isMarketOpen ? 'OPEN' : 'CLOSED';
-      elMarketStatus.className   = isMarketOpen ? 'open' : 'closed';
-
-      elLastUpdated.textContent = 'Updated ' + new Date().toLocaleTimeString();
-
+      elMarketStatus.textContent = isOpen ? 'OPEN' : 'CLOSED';
+      elMarketStatus.className   = isOpen ? 'open' : 'closed';
+      elLastUpdated.textContent  = 'Updated ' + new Date().toLocaleTimeString();
       setAccentColor(isUp);
       return isUp;
     }
 
-    function updateMetricCards(q) {
-      elMarketCap.textContent  = fmtLarge(q.marketCap);
-      elOpenPrice.textContent  = fmtPrice(q.open);
-      elPrevClose.textContent  = fmtPrice(q.prevClose);
-      elVolume.textContent     = fmtVolume(q.volume);
-      elAvgVolume.textContent  = fmtVolume(q.avgVolume);
-      elPeRatio.textContent    = fmtRatio(q.peRatio);
-      elWk52High.textContent   = fmtPrice(q.fiftyTwoWkHigh);
-      elWk52Low.textContent    = fmtPrice(q.fiftyTwoWkLow);
+    function updateMetricCards(quote, metrics) {
+      const m = metrics.metric || {};
+      elMarketCap.textContent  = fmtLarge((m.marketCapitalization || 0) * 1e6);
+      elOpenPrice.textContent  = fmtPrice(quote.o);
+      elPrevClose.textContent  = fmtPrice(quote.pc);
+      elVolume.textContent     = fmtVolume((m['10DayAverageTradingVolume'] || 0) * 1e6);
+      elDayHigh.textContent    = fmtPrice(quote.h);
+      elPeRatio.textContent    = fmtRatio(m.peTTM ?? m.peAnnual);
+      elWk52High.textContent   = fmtPrice(m['52WeekHigh']);
+      elWk52Low.textContent    = fmtPrice(m['52WeekLow']);
     }
 
-    // ── MAIN LOAD FUNCTIONS ──────────────────────────────────────────────────
+    // ── LOAD FUNCTIONS ───────────────────────────────────────────────────────
     async function loadAll() {
+      if (!FINNHUB_KEY) return;
       showLoading(true);
       hideError();
       try {
-        const { range, interval } = RANGE_CONFIG[currentRange];
-        const [chartData, quoteData] = await Promise.all([
-          fetchChartData(range, interval),
-          fetchQuoteData(),
+        const [quote, metrics, status, candles] = await Promise.all([
+          fetchQuote(),
+          fetchMetrics(),
+          fetchMarketStatus(),
+          fetchCandles(currentRange),
         ]);
-        const isUp = updateHeader(chartData.currentPrice, chartData.prevClose, chartData.marketState);
-        updateMetricCards(quoteData);
-        renderChart(chartData.timestamps, chartData.closes, isUp);
+        const isUp = updateHeader(quote, status.isOpen);
+        updateMetricCards(quote, metrics);
+        renderChart(candles.timestamps, candles.closes, isUp);
       } catch (err) {
         showError('Failed to load data: ' + err.message);
         console.error(err);
@@ -731,18 +672,45 @@
     }
 
     async function loadChart() {
-      const { range, interval } = RANGE_CONFIG[currentRange];
+      if (!FINNHUB_KEY) return;
       try {
-        const chartData = await fetchChartData(range, interval);
-        const isUp = updateHeader(chartData.currentPrice, chartData.prevClose, chartData.marketState);
-        renderChart(chartData.timestamps, chartData.closes, isUp);
+        const [quote, candles] = await Promise.all([fetchQuote(), fetchCandles(currentRange)]);
+        const isUp = updateHeader(quote, null);  // status unknown on chart-only refresh
+        renderChart(candles.timestamps, candles.closes, isUp);
       } catch (err) {
         showError('Chart refresh failed: ' + err.message);
-        console.error(err);
       }
     }
 
-    // ── EVENT LISTENERS ──────────────────────────────────────────────────────
+    // ── SETUP MODAL ──────────────────────────────────────────────────────────
+    function initSetupModal() {
+      if (FINNHUB_KEY) {
+        elSetupModal.classList.add('hidden');
+      } else {
+        elSetupModal.classList.remove('hidden');
+      }
+    }
+
+    elSaveKeyBtn.addEventListener('click', () => {
+      const key = elApiKeyInput.value.trim();
+      if (!key) { elApiKeyInput.focus(); return; }
+      FINNHUB_KEY = key;
+      localStorage.setItem('finnhubApiKey', key);
+      elSetupModal.classList.add('hidden');
+      clearInterval(refreshTimer);
+      loadAll();
+      refreshTimer = setInterval(loadAll, REFRESH_INTERVAL_MS);
+    });
+
+    elApiKeyInput.addEventListener('keydown', e => { if (e.key === 'Enter') elSaveKeyBtn.click(); });
+
+    elSettingsBtn.addEventListener('click', () => {
+      elApiKeyInput.value = FINNHUB_KEY;
+      elSetupModal.classList.remove('hidden');
+      elApiKeyInput.focus();
+    });
+
+    // ── RANGE BUTTONS ────────────────────────────────────────────────────────
     document.querySelectorAll('.range-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.range-btn').forEach(b => {
@@ -756,15 +724,15 @@
       });
     });
 
-    document.getElementById('retry-btn').addEventListener('click', () => {
-      hideError();
-      loadAll();
-    });
+    document.getElementById('retry-btn').addEventListener('click', () => { hideError(); loadAll(); });
 
     // ── INIT ─────────────────────────────────────────────────────────────────
-    loadAll();
+    initSetupModal();
 
-    refreshTimer = setInterval(loadAll, REFRESH_INTERVAL_MS);
+    if (FINNHUB_KEY) {
+      loadAll();
+      refreshTimer = setInterval(loadAll, REFRESH_INTERVAL_MS);
+    }
   </script>
 
 </body>
