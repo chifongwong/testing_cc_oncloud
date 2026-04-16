@@ -425,10 +425,10 @@
       <div id="chart-header">
         <span id="chart-title">Price History</span>
         <div id="range-selector">
-          <button class="range-btn active" data-range="1D">1D</button>
-          <button class="range-btn" data-range="5D">5D</button>
+          <button class="range-btn active" data-range="1W">1W</button>
           <button class="range-btn" data-range="1M">1M</button>
           <button class="range-btn" data-range="3M">3M</button>
+          <button class="range-btn" data-range="6M">6M</button>
           <button class="range-btn" data-range="1Y">1Y</button>
         </div>
       </div>
@@ -460,16 +460,17 @@
 
     let FINNHUB_KEY = localStorage.getItem('finnhubApiKey') || '';
 
+    // Free tier supports only D (daily) and W (weekly) resolution for US stocks
     const RANGE_CANDLE = {
-      '1D': { resolution: '5',  from: () => Math.floor(Date.now() / 1000) - 86400 },
-      '5D': { resolution: '15', from: () => Math.floor(Date.now() / 1000) - 86400 * 7 },
-      '1M': { resolution: 'D',  from: () => Math.floor(Date.now() / 1000) - 86400 * 35 },
-      '3M': { resolution: 'D',  from: () => Math.floor(Date.now() / 1000) - 86400 * 95 },
-      '1Y': { resolution: 'W',  from: () => Math.floor(Date.now() / 1000) - 86400 * 370 },
+      '1W': { resolution: 'D', from: () => Math.floor(Date.now() / 1000) - 86400 * 9  },
+      '1M': { resolution: 'D', from: () => Math.floor(Date.now() / 1000) - 86400 * 35 },
+      '3M': { resolution: 'D', from: () => Math.floor(Date.now() / 1000) - 86400 * 95 },
+      '6M': { resolution: 'D', from: () => Math.floor(Date.now() / 1000) - 86400 * 185 },
+      '1Y': { resolution: 'W', from: () => Math.floor(Date.now() / 1000) - 86400 * 370 },
     };
 
     // ── STATE ────────────────────────────────────────────────────────────────
-    let currentRange  = '1D';
+    let currentRange  = '1W';
     let chartInstance = null;
     let refreshTimer  = null;
 
@@ -553,9 +554,13 @@
       // Returns: { metric: { marketCapitalization, peAnnual, peTTM, 52WeekHigh, 52WeekLow, 10DayAverageTradingVolume } }
     }
 
-    async function fetchMarketStatus() {
-      return apiFetch(`/stock/market-status?exchange=US`);
-      // Returns: { isOpen: bool }
+    // Infer NYSE market status from local time — avoids a premium Finnhub endpoint
+    function isNYSEOpen() {
+      const et = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const day = et.getDay(); // 0=Sun, 6=Sat
+      if (day === 0 || day === 6) return false;
+      const mins = et.getHours() * 60 + et.getMinutes();
+      return mins >= 9 * 60 + 30 && mins < 16 * 60;
     }
 
     async function fetchCandles(range) {
@@ -569,8 +574,6 @@
     // ── CHART ────────────────────────────────────────────────────────────────
     function formatLabel(ts) {
       const d = new Date(ts * 1000);
-      if (currentRange === '1D' || currentRange === '5D')
-        return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
       return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
     }
 
@@ -654,13 +657,12 @@
       showLoading(true);
       hideError();
       try {
-        const [quote, metrics, status, candles] = await Promise.all([
+        const [quote, metrics, candles] = await Promise.all([
           fetchQuote(),
           fetchMetrics(),
-          fetchMarketStatus(),
           fetchCandles(currentRange),
         ]);
-        const isUp = updateHeader(quote, status.isOpen);
+        const isUp = updateHeader(quote, isNYSEOpen());
         updateMetricCards(quote, metrics);
         renderChart(candles.timestamps, candles.closes, isUp);
       } catch (err) {
@@ -675,7 +677,7 @@
       if (!FINNHUB_KEY) return;
       try {
         const [quote, candles] = await Promise.all([fetchQuote(), fetchCandles(currentRange)]);
-        const isUp = updateHeader(quote, null);  // status unknown on chart-only refresh
+        const isUp = updateHeader(quote, isNYSEOpen());
         renderChart(candles.timestamps, candles.closes, isUp);
       } catch (err) {
         showError('Chart refresh failed: ' + err.message);
