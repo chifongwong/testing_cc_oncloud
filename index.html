@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TSLA Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0d0d0d;
+      --bg-card: #1a1a1a;
+      --bg-card-hover: #242424;
+      --border: #2a2a2a;
+      --text-primary: #f0f0f0;
+      --text-muted: #808080;
+      --accent-up: #00c853;
+      --accent-down: #f44336;
+      --accent-neutral: #9e9e9e;
+      --accent-active: #9e9e9e;
+      --chart-line: #2196f3;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+
+    /* ── HEADER ── */
+    #header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 13, 13, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--text-primary);
+    }
+
+    .logo span {
+      color: var(--accent-active);
+    }
+
+    .price-block {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
+
+    #current-price {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    #price-change {
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(158, 158, 158, 0.15);
+      color: var(--accent-neutral);
+    }
+
+    #price-change.up {
+      background: rgba(0, 200, 83, 0.15);
+      color: var(--accent-up);
+    }
+
+    #price-change.down {
+      background: rgba(244, 67, 54, 0.15);
+      color: var(--accent-down);
+    }
+
+    .header-meta {
+      margin-left: auto;
+      text-align: right;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    #market-status {
+      display: inline-block;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    #market-status.open {
+      background: rgba(0, 200, 83, 0.2);
+      color: var(--accent-up);
+    }
+
+    #market-status.closed {
+      background: rgba(158, 158, 158, 0.2);
+      color: var(--text-muted);
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem;
+    }
+
+    /* ── METRICS GRID ── */
+    #metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      cursor: default;
+    }
+
+    .card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-value {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ── CHART SECTION ── */
+    #chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    #chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    #chart-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    #range-selector {
+      display: flex;
+      gap: 0.25rem;
+    }
+
+    .range-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .range-btn:hover {
+      background: var(--bg-card-hover);
+      color: var(--text-primary);
+      border-color: var(--text-muted);
+    }
+
+    .range-btn.active {
+      background: var(--accent-active);
+      border-color: var(--accent-active);
+      color: #000;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 320px;
+    }
+
+    /* ── LOADING OVERLAY ── */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 13, 13, 0.85);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 200;
+      transition: opacity 0.2s ease;
+    }
+
+    #loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent-active);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #loading-overlay p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── ERROR BANNER ── */
+    #error-banner {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2a1010;
+      border: 1px solid #f44336;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      z-index: 300;
+      max-width: 90vw;
+      font-size: 0.85rem;
+    }
+
+    #error-banner.hidden {
+      display: none;
+    }
+
+    #error-message {
+      color: #f44336;
+    }
+
+    #retry-btn {
+      background: #f44336;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.75rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    #retry-btn:hover {
+      background: #e53935;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      #header {
+        padding: 0.75rem 1rem;
+        gap: 0.75rem;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+      }
+
+      #current-price {
+        font-size: 1.5rem;
+      }
+
+      .header-meta {
+        margin-left: 0;
+        text-align: left;
+        width: 100%;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      #metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart-container {
+        height: 240px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      #metrics-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="logo">TSL<span>A</span></div>
+    <div class="price-block">
+      <span id="current-price">--</span>
+      <span id="price-change">-- (--)</span>
+    </div>
+    <div class="header-meta">
+      <div><span id="market-status" class="closed">--</span></div>
+      <div id="last-updated">--</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <!-- METRICS GRID -->
+    <section id="metrics-grid">
+      <div class="card">
+        <div class="card-label">Market Cap</div>
+        <div class="card-value" id="market-cap">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Open</div>
+        <div class="card-value" id="open-price">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Prev Close</div>
+        <div class="card-value" id="prev-close">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Volume</div>
+        <div class="card-value" id="volume">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Avg Volume</div>
+        <div class="card-value" id="avg-volume">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">P/E Ratio</div>
+        <div class="card-value" id="pe-ratio">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">52W High</div>
+        <div class="card-value" id="wk52-high">--</div>
+      </div>
+      <div class="card">
+        <div class="card-label">52W Low</div>
+        <div class="card-value" id="wk52-low">--</div>
+      </div>
+    </section>
+
+    <!-- CHART SECTION -->
+    <section id="chart-section">
+      <div id="chart-header">
+        <span id="chart-title">Price History</span>
+        <div id="range-selector">
+          <button class="range-btn active" data-range="1D">1D</button>
+          <button class="range-btn" data-range="5D">5D</button>
+          <button class="range-btn" data-range="1M">1M</button>
+          <button class="range-btn" data-range="3M">3M</button>
+          <button class="range-btn" data-range="1Y">1Y</button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="price-chart"></canvas>
+      </div>
+    </section>
+
+    <footer>
+      Data provided by Yahoo Finance · Refreshes every 30s · For informational purposes only
+    </footer>
+  </main>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <p>Fetching TSLA data&hellip;</p>
+  </div>
+
+  <!-- ERROR BANNER -->
+  <div id="error-banner" class="hidden">
+    <span id="error-message"></span>
+    <button id="retry-btn">Retry</button>
+  </div>
+
+  <script>
+    // ── CONFIG ──────────────────────────────────────────────────────────────
+    const TICKER = 'TSLA';
+    const REFRESH_INTERVAL_MS = 30_000;
+
+    const YF_CHART_BASE = `https://query1.finance.yahoo.com/v8/finance/chart/${TICKER}`;
+    const YF_QUOTE_URL  = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${TICKER}?modules=summaryDetail,defaultKeyStatistics,price`;
+    const CORS_PROXY    = 'https://corsproxy.io/?';
+    // Fallback proxy (uncomment if corsproxy.io is down):
+    // const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+    const RANGE_CONFIG = {
+      '1D': { range: '1d',  interval: '5m'  },
+      '5D': { range: '5d',  interval: '15m' },
+      '1M': { range: '1mo', interval: '1d'  },
+      '3M': { range: '3mo', interval: '1d'  },
+      '1Y': { range: '1y',  interval: '1wk' },
+    };
+
+    // ── STATE ────────────────────────────────────────────────────────────────
+    let currentRange  = '1D';
+    let chartInstance = null;
+    let refreshTimer  = null;
+
+    // ── DOM REFS ─────────────────────────────────────────────────────────────
+    const elCurrentPrice  = document.getElementById('current-price');
+    const elPriceChange   = document.getElementById('price-change');
+    const elMarketStatus  = document.getElementById('market-status');
+    const elLastUpdated   = document.getElementById('last-updated');
+    const elMarketCap     = document.getElementById('market-cap');
+    const elOpenPrice     = document.getElementById('open-price');
+    const elPrevClose     = document.getElementById('prev-close');
+    const elVolume        = document.getElementById('volume');
+    const elAvgVolume     = document.getElementById('avg-volume');
+    const elPeRatio       = document.getElementById('pe-ratio');
+    const elWk52High      = document.getElementById('wk52-high');
+    const elWk52Low       = document.getElementById('wk52-low');
+    const elLoadingOverlay = document.getElementById('loading-overlay');
+    const elErrorBanner   = document.getElementById('error-banner');
+    const elErrorMessage  = document.getElementById('error-message');
+
+    // ── FORMATTERS ───────────────────────────────────────────────────────────
+    function fmtPrice(n) {
+      if (n == null) return '--';
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function fmtLarge(n) {
+      if (n == null) return '--';
+      if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
+      if (n >= 1e9)  return '$' + (n / 1e9).toFixed(2) + 'B';
+      if (n >= 1e6)  return '$' + (n / 1e6).toFixed(2) + 'M';
+      return '$' + n.toLocaleString('en-US');
+    }
+
+    function fmtVolume(n) {
+      if (n == null) return '--';
+      if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
+      if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+      if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+      return n.toLocaleString('en-US');
+    }
+
+    function fmtRatio(n) {
+      if (n == null) return '--';
+      return n.toFixed(2) + 'x';
+    }
+
+    // ── UI HELPERS ───────────────────────────────────────────────────────────
+    function showLoading(visible) {
+      elLoadingOverlay.classList.toggle('hidden', !visible);
+    }
+
+    function showError(msg) {
+      elErrorMessage.textContent = msg;
+      elErrorBanner.classList.remove('hidden');
+    }
+
+    function hideError() {
+      elErrorBanner.classList.add('hidden');
+    }
+
+    function setAccentColor(isUp) {
+      const color = isUp ? 'var(--accent-up)' : 'var(--accent-down)';
+      document.documentElement.style.setProperty('--accent-active', color);
+      // Update active range button immediately
+      document.querySelectorAll('.range-btn.active').forEach(btn => {
+        btn.style.background = isUp ? '#00c853' : '#f44336';
+        btn.style.borderColor = isUp ? '#00c853' : '#f44336';
+      });
+    }
+
+    // ── FETCH WITH CORS FALLBACK ─────────────────────────────────────────────
+    async function fetchWithCORSFallback(url) {
+      // Attempt 1: direct fetch
+      try {
+        const res = await fetch(url, {
+          headers: { 'Accept': 'application/json' },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (res.ok) return res.json();
+      } catch (_) {
+        // CORS or network error — fall through to proxy
+      }
+
+      // Attempt 2: CORS proxy
+      const proxied = CORS_PROXY + encodeURIComponent(url);
+      const res = await fetch(proxied, { signal: AbortSignal.timeout(12000) });
+      if (!res.ok) throw new Error(`HTTP ${res.status} — proxy request failed`);
+      return res.json();
+    }
+
+    // ── DATA FETCHERS ────────────────────────────────────────────────────────
+    async function fetchChartData(range, interval) {
+      const url = `${YF_CHART_BASE}?range=${range}&interval=${interval}&includePrePost=false`;
+      const data = await fetchWithCORSFallback(url);
+      const result = data.chart.result[0];
+      const rawTimestamps = result.timestamp || [];
+      const rawCloses     = result.indicators.quote[0].close || [];
+
+      // Filter out null closes (gaps in intraday data)
+      const pairs = rawTimestamps
+        .map((ts, i) => [ts, rawCloses[i]])
+        .filter(([, c]) => c != null);
+
+      return {
+        timestamps:   pairs.map(([ts]) => ts),
+        closes:       pairs.map(([, c]) => c),
+        currentPrice: result.meta.regularMarketPrice,
+        prevClose:    result.meta.chartPreviousClose,
+        marketState:  result.meta.marketState,
+      };
+    }
+
+    async function fetchQuoteData() {
+      const data = await fetchWithCORSFallback(YF_QUOTE_URL);
+      const r = data.quoteSummary.result[0];
+      const sd = r.summaryDetail || {};
+      const pr = r.price || {};
+      return {
+        marketCap:      sd.marketCap?.raw      ?? pr.marketCap?.raw,
+        peRatio:        sd.trailingPE?.raw,
+        fiftyTwoWkHigh: sd.fiftyTwoWeekHigh?.raw,
+        fiftyTwoWkLow:  sd.fiftyTwoWeekLow?.raw,
+        volume:         sd.volume?.raw         ?? pr.regularMarketVolume?.raw,
+        avgVolume:      sd.averageVolume?.raw,
+        open:           sd.open?.raw           ?? pr.regularMarketOpen?.raw,
+        prevClose:      sd.previousClose?.raw  ?? pr.regularMarketPreviousClose?.raw,
+      };
+    }
+
+    // ── CHART RENDERER ───────────────────────────────────────────────────────
+    function formatLabel(ts, range) {
+      const d = new Date(ts * 1000);
+      if (range === '1D' || range === '5D') {
+        return d.toLocaleString('en-US', {
+          month: 'short', day: 'numeric',
+          hour: 'numeric', minute: '2-digit', hour12: true,
+        });
+      }
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
+    }
+
+    function renderChart(timestamps, closes, isUp) {
+      const ctx = document.getElementById('price-chart').getContext('2d');
+      const color = isUp ? '#00c853' : '#f44336';
+
+      const gradient = ctx.createLinearGradient(0, 0, 0, 320);
+      gradient.addColorStop(0, color + '35');
+      gradient.addColorStop(1, color + '00');
+
+      const labels = timestamps.map(ts => formatLabel(ts, currentRange));
+
+      const config = {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            data: closes,
+            borderColor: color,
+            borderWidth: 2,
+            backgroundColor: gradient,
+            fill: true,
+            tension: 0.2,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: color,
+            pointHoverBorderColor: '#0d0d0d',
+            pointHoverBorderWidth: 2,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#1a1a1a',
+              borderColor: '#2a2a2a',
+              borderWidth: 1,
+              titleColor: '#808080',
+              bodyColor: '#f0f0f0',
+              padding: 10,
+              callbacks: {
+                label: ctx => ` $${ctx.parsed.y != null ? ctx.parsed.y.toFixed(2) : 'N/A'}`,
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { color: '#1a1a1a' },
+              ticks: {
+                color: '#606060',
+                maxTicksLimit: 8,
+                maxRotation: 0,
+                font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 },
+              },
+              border: { color: '#2a2a2a' },
+            },
+            y: {
+              position: 'right',
+              grid: { color: '#1a1a1a' },
+              ticks: {
+                color: '#606060',
+                font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 },
+                callback: val => '$' + val.toFixed(0),
+              },
+              border: { color: '#2a2a2a' },
+            },
+          },
+        },
+      };
+
+      if (chartInstance) chartInstance.destroy();
+      chartInstance = new Chart(ctx, config);
+    }
+
+    // ── UI UPDATERS ──────────────────────────────────────────────────────────
+    function updateHeader(currentPrice, prevClose, marketState) {
+      const change    = currentPrice - prevClose;
+      const changePct = (change / prevClose) * 100;
+      const isUp      = change >= 0;
+      const sign      = isUp ? '+' : '';
+
+      elCurrentPrice.textContent = fmtPrice(currentPrice);
+      elPriceChange.textContent  = `${sign}${fmtPrice(change)} (${sign}${changePct.toFixed(2)}%)`;
+      elPriceChange.className    = isUp ? 'up' : 'down';
+
+      const isMarketOpen = marketState === 'REGULAR';
+      elMarketStatus.textContent = isMarketOpen ? 'OPEN' : 'CLOSED';
+      elMarketStatus.className   = isMarketOpen ? 'open' : 'closed';
+
+      elLastUpdated.textContent = 'Updated ' + new Date().toLocaleTimeString();
+
+      setAccentColor(isUp);
+      return isUp;
+    }
+
+    function updateMetricCards(q) {
+      elMarketCap.textContent  = fmtLarge(q.marketCap);
+      elOpenPrice.textContent  = fmtPrice(q.open);
+      elPrevClose.textContent  = fmtPrice(q.prevClose);
+      elVolume.textContent     = fmtVolume(q.volume);
+      elAvgVolume.textContent  = fmtVolume(q.avgVolume);
+      elPeRatio.textContent    = fmtRatio(q.peRatio);
+      elWk52High.textContent   = fmtPrice(q.fiftyTwoWkHigh);
+      elWk52Low.textContent    = fmtPrice(q.fiftyTwoWkLow);
+    }
+
+    // ── MAIN LOAD FUNCTIONS ──────────────────────────────────────────────────
+    async function loadAll() {
+      showLoading(true);
+      hideError();
+      try {
+        const { range, interval } = RANGE_CONFIG[currentRange];
+        const [chartData, quoteData] = await Promise.all([
+          fetchChartData(range, interval),
+          fetchQuoteData(),
+        ]);
+        const isUp = updateHeader(chartData.currentPrice, chartData.prevClose, chartData.marketState);
+        updateMetricCards(quoteData);
+        renderChart(chartData.timestamps, chartData.closes, isUp);
+      } catch (err) {
+        showError('Failed to load data: ' + err.message);
+        console.error(err);
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function loadChart() {
+      const { range, interval } = RANGE_CONFIG[currentRange];
+      try {
+        const chartData = await fetchChartData(range, interval);
+        const isUp = updateHeader(chartData.currentPrice, chartData.prevClose, chartData.marketState);
+        renderChart(chartData.timestamps, chartData.closes, isUp);
+      } catch (err) {
+        showError('Chart refresh failed: ' + err.message);
+        console.error(err);
+      }
+    }
+
+    // ── EVENT LISTENERS ──────────────────────────────────────────────────────
+    document.querySelectorAll('.range-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.range-btn').forEach(b => {
+          b.classList.remove('active');
+          b.style.background = '';
+          b.style.borderColor = '';
+        });
+        btn.classList.add('active');
+        currentRange = btn.dataset.range;
+        loadChart();
+      });
+    });
+
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      hideError();
+      loadAll();
+    });
+
+    // ── INIT ─────────────────────────────────────────────────────────────────
+    loadAll();
+
+    refreshTimer = setInterval(loadAll, REFRESH_INTERVAL_MS);
+  </script>
+
+</body>
+</html>
