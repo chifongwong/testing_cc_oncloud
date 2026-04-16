@@ -15,7 +15,6 @@
       --text-muted: #808080;
       --accent-up: #00c853;
       --accent-down: #f44336;
-      --accent-neutral: #9e9e9e;
       --accent-active: #9e9e9e;
     }
 
@@ -32,73 +31,51 @@
     /* ── SETUP MODAL ── */
     #setup-modal {
       position: fixed; inset: 0;
-      background: rgba(13, 13, 13, 0.96);
+      background: rgba(13,13,13,0.96);
       display: flex; align-items: center; justify-content: center;
       z-index: 400; padding: 1rem;
     }
     #setup-modal.hidden { display: none; }
-
     .setup-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 440px;
-      width: 100%;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem; max-width: 420px; width: 100%;
     }
-    .setup-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; letter-spacing: 0.05em; }
+    .setup-card h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
     .setup-card p  { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
     .setup-card a  { color: #2196f3; text-decoration: none; }
     .setup-card a:hover { text-decoration: underline; }
-
     .setup-steps { font-size: 0.78rem; color: var(--text-muted); line-height: 1.9; margin-bottom: 1.25rem; padding-left: 1.1rem; }
-
     #api-key-input {
-      width: 100%; background: #111;
-      border: 1px solid var(--border); border-radius: 6px;
+      width: 100%; background: #111; border: 1px solid var(--border); border-radius: 6px;
       color: var(--text-primary); font-family: inherit; font-size: 0.85rem;
-      padding: 0.65rem 0.85rem; margin-bottom: 0.75rem;
-      outline: none; transition: border-color 0.15s;
+      padding: 0.65rem 0.85rem; margin-bottom: 0.75rem; outline: none; transition: border-color 0.15s;
     }
     #api-key-input:focus { border-color: #2196f3; }
-
     #save-key-btn {
       width: 100%; background: #2196f3; border: none; border-radius: 6px;
       color: #fff; font-family: inherit; font-size: 0.85rem; font-weight: 700;
-      padding: 0.7rem; cursor: pointer; letter-spacing: 0.04em; transition: background 0.15s;
+      padding: 0.7rem; cursor: pointer; transition: background 0.15s;
     }
     #save-key-btn:hover { background: #1976d2; }
 
     /* ── HEADER ── */
     #header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(13, 13, 13, 0.95);
-      backdrop-filter: blur(10px);
+      background: rgba(13,13,13,0.95); backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
-      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+      padding: 1rem 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
     }
     .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; }
     .logo span { color: var(--accent-active); }
-
     .price-block { display: flex; align-items: baseline; gap: 0.75rem; }
     #current-price { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; }
     #price-change {
-      font-size: 1rem; font-weight: 600;
-      padding: 0.2rem 0.5rem; border-radius: 4px;
-      background: rgba(158,158,158,0.15); color: var(--accent-neutral);
+      font-size: 1rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px;
+      background: rgba(158,158,158,0.15); color: var(--accent-active);
     }
     #price-change.up   { background: rgba(0,200,83,0.15);  color: var(--accent-up);   }
     #price-change.down { background: rgba(244,67,54,0.15); color: var(--accent-down); }
-
     .header-meta { margin-left: auto; text-align: right; font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
-    #market-status {
-      display: inline-block; padding: 0.15rem 0.4rem;
-      border-radius: 3px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
-    }
-    #market-status.open   { background: rgba(0,200,83,0.2);   color: var(--accent-up);   }
-    #market-status.closed { background: rgba(158,158,158,0.2); color: var(--text-muted); }
-
     #settings-btn {
       background: transparent; border: 1px solid var(--border); border-radius: 6px;
       color: var(--text-muted); cursor: pointer; font-size: 1rem;
@@ -111,39 +88,30 @@
 
     /* ── METRICS GRID ── */
     #metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1rem; margin-bottom: 1.5rem;
     }
     .card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
       padding: 1rem 1.25rem;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-      cursor: default;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s; cursor: default;
     }
     .card:hover { background: var(--bg-card-hover); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
     .card-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .card-value { font-size: 1.15rem; font-weight: 600; color: var(--text-primary); }
+    .card-value { font-size: 1.15rem; font-weight: 600; }
 
     /* ── CHART ── */
     #chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; }
-    #chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem; }
+    #chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
     #chart-title { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
-    #range-selector { display: flex; gap: 0.25rem; }
-    .range-btn {
-      background: transparent; border: 1px solid var(--border); color: var(--text-muted);
-      font-family: inherit; font-size: 0.75rem; font-weight: 600;
-      padding: 0.3rem 0.65rem; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;
-    }
-    .range-btn:hover { background: var(--bg-card-hover); color: var(--text-primary); border-color: var(--text-muted); }
-    .range-btn.active { background: var(--accent-active); border-color: var(--accent-active); color: #000; }
-    .chart-container { position: relative; height: 320px; }
+    #chart-hint { font-size: 0.72rem; color: var(--text-muted); }
+    .chart-container { position: relative; height: 300px; }
 
     /* ── LOADING ── */
     #loading-overlay {
       position: fixed; inset: 0; background: rgba(13,13,13,0.85);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1rem; z-index: 200; transition: opacity 0.2s ease;
+      gap: 1rem; z-index: 200; transition: opacity 0.2s;
     }
     #loading-overlay.hidden { opacity: 0; pointer-events: none; }
     .spinner {
@@ -166,43 +134,36 @@
     #retry-btn {
       background: #f44336; border: none; border-radius: 4px; color: #fff;
       font-family: inherit; font-size: 0.75rem; font-weight: 700;
-      padding: 0.3rem 0.75rem; cursor: pointer; white-space: nowrap;
+      padding: 0.3rem 0.75rem; cursor: pointer;
     }
     #retry-btn:hover { background: #e53935; }
 
     footer { text-align: center; margin-top: 2rem; font-size: 0.7rem; color: var(--text-muted); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       #header { padding: 0.75rem 1rem; gap: 0.75rem; }
       .logo { font-size: 1.2rem; }
       #current-price { font-size: 1.5rem; }
-      .header-meta { margin-left: 0; text-align: left; width: 100%; }
+      .header-meta { margin-left: 0; width: 100%; }
       main { padding: 1rem; }
       #metrics-grid { grid-template-columns: repeat(2, 1fr); }
-      .chart-container { height: 240px; }
     }
-    @media (max-width: 420px) {
-      #metrics-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 420px) { #metrics-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-  <!-- API KEY SETUP MODAL -->
+  <!-- SETUP MODAL -->
   <div id="setup-modal">
     <div class="setup-card">
-      <h2>Connect to Twelve Data</h2>
-      <p>
-        This dashboard uses <a href="https://twelvedata.com" target="_blank" rel="noopener">Twelve Data</a>
-        for real-time TSLA data. The free tier includes 800 API calls/day — more than enough.
-      </p>
+      <h2>Connect to Finnhub</h2>
+      <p>This dashboard uses the Finnhub <code>/quote</code> endpoint — available on the free tier with no restrictions.</p>
       <ol class="setup-steps">
-        <li>Go to <a href="https://twelvedata.com/register" target="_blank" rel="noopener">twelvedata.com/register</a> and create a free account</li>
-        <li>Copy your API key from the dashboard</li>
+        <li>Go to <a href="https://finnhub.io/register" target="_blank" rel="noopener">finnhub.io/register</a> and sign up for free</li>
+        <li>Copy your API token from the dashboard</li>
         <li>Paste it below and click Connect</li>
       </ol>
-      <input type="text" id="api-key-input" placeholder="Paste your Twelve Data API key here" autocomplete="off" spellcheck="false" />
+      <input type="text" id="api-key-input" placeholder="Paste your Finnhub API token" autocomplete="off" spellcheck="false" />
       <button id="save-key-btn">Connect</button>
     </div>
   </div>
@@ -215,198 +176,147 @@
       <span id="price-change">-- (--)</span>
     </div>
     <div class="header-meta">
-      <div><span id="market-status" class="closed">--</span></div>
       <div id="last-updated">--</div>
     </div>
     <button id="settings-btn" title="Change API key">&#9881;</button>
   </header>
 
-  <!-- MAIN -->
   <main>
+    <!-- METRICS -->
     <section id="metrics-grid">
-      <div class="card"><div class="card-label">Open</div><div class="card-value" id="open-price">--</div></div>
-      <div class="card"><div class="card-label">Prev Close</div><div class="card-value" id="prev-close">--</div></div>
-      <div class="card"><div class="card-label">Day High</div><div class="card-value" id="day-high">--</div></div>
-      <div class="card"><div class="card-label">Day Low</div><div class="card-value" id="day-low">--</div></div>
-      <div class="card"><div class="card-label">Volume</div><div class="card-value" id="volume">--</div></div>
-      <div class="card"><div class="card-label">Avg Volume</div><div class="card-value" id="avg-volume">--</div></div>
-      <div class="card"><div class="card-label">52W High</div><div class="card-value" id="wk52-high">--</div></div>
-      <div class="card"><div class="card-label">52W Low</div><div class="card-value" id="wk52-low">--</div></div>
+      <div class="card"><div class="card-label">Open</div><div class="card-value" id="m-open">--</div></div>
+      <div class="card"><div class="card-label">Prev Close</div><div class="card-value" id="m-prev-close">--</div></div>
+      <div class="card"><div class="card-label">Day High</div><div class="card-value" id="m-high">--</div></div>
+      <div class="card"><div class="card-label">Day Low</div><div class="card-value" id="m-low">--</div></div>
     </section>
 
+    <!-- LIVE CHART -->
     <section id="chart-section">
       <div id="chart-header">
-        <span id="chart-title">Price History</span>
-        <div id="range-selector">
-          <button class="range-btn active" data-range="1W">1W</button>
-          <button class="range-btn" data-range="1M">1M</button>
-          <button class="range-btn" data-range="3M">3M</button>
-          <button class="range-btn" data-range="6M">6M</button>
-          <button class="range-btn" data-range="1Y">1Y</button>
-        </div>
+        <span id="chart-title">Live Price</span>
+        <span id="chart-hint">Accumulates data points every 30s</span>
       </div>
       <div class="chart-container">
         <canvas id="price-chart"></canvas>
       </div>
     </section>
 
-    <footer>Data provided by Twelve Data &middot; Price refreshes every 2 min &middot; For informational purposes only</footer>
+    <footer>Data: Finnhub /quote (free tier) &middot; Refreshes every 30s &middot; For informational purposes only</footer>
   </main>
 
-  <!-- LOADING OVERLAY -->
+  <!-- LOADING -->
   <div id="loading-overlay" class="hidden">
     <div class="spinner"></div>
     <p>Fetching TSLA data&hellip;</p>
   </div>
 
-  <!-- ERROR BANNER -->
+  <!-- ERROR -->
   <div id="error-banner" class="hidden">
     <span id="error-message"></span>
     <button id="retry-btn">Retry</button>
   </div>
 
   <script>
-    // ── CONFIG ───────────────────────────────────────────────────────────────
-    const TICKER = 'TSLA';
-    const TD_BASE = 'https://api.twelvedata.com';
-    const QUOTE_REFRESH_MS = 120_000; // 2 min — keeps within 800 calls/day free tier
+    const TICKER          = 'TSLA';
+    const REFRESH_MS      = 30_000;
+    const FINNHUB_BASE    = 'https://finnhub.io/api/v1';
+    const MAX_HISTORY_PTS = 120; // keep last 60 minutes of 30s ticks
 
-    // All ranges use daily or weekly candles (both free on Twelve Data)
-    const RANGE_SERIES = {
-      '1W': { interval: '1day',  outputsize: 7   },
-      '1M': { interval: '1day',  outputsize: 30  },
-      '3M': { interval: '1day',  outputsize: 90  },
-      '6M': { interval: '1day',  outputsize: 180 },
-      '1Y': { interval: '1week', outputsize: 52  },
-    };
-
-    // ── STATE ────────────────────────────────────────────────────────────────
-    let TD_KEY       = localStorage.getItem('tdApiKey') || '';
-    let currentRange = '1W';
+    let FINNHUB_KEY   = localStorage.getItem('finnhubApiKey') || '';
     let chartInstance = null;
-    let quoteTimer    = null;
+    let refreshTimer  = null;
 
-    // ── DOM REFS ─────────────────────────────────────────────────────────────
-    const elSetupModal    = document.getElementById('setup-modal');
-    const elApiKeyInput   = document.getElementById('api-key-input');
-    const elSaveKeyBtn    = document.getElementById('save-key-btn');
-    const elSettingsBtn   = document.getElementById('settings-btn');
-    const elCurrentPrice  = document.getElementById('current-price');
-    const elPriceChange   = document.getElementById('price-change');
-    const elMarketStatus  = document.getElementById('market-status');
-    const elLastUpdated   = document.getElementById('last-updated');
-    const elOpenPrice     = document.getElementById('open-price');
-    const elPrevClose     = document.getElementById('prev-close');
-    const elDayHigh       = document.getElementById('day-high');
-    const elDayLow        = document.getElementById('day-low');
-    const elVolume        = document.getElementById('volume');
-    const elAvgVolume     = document.getElementById('avg-volume');
-    const elWk52High      = document.getElementById('wk52-high');
-    const elWk52Low       = document.getElementById('wk52-low');
-    const elLoadingOverlay = document.getElementById('loading-overlay');
-    const elErrorBanner   = document.getElementById('error-banner');
-    const elErrorMessage  = document.getElementById('error-message');
+    // In-memory live price history (resets on page reload)
+    const history = { times: [], prices: [] };
+
+    // ── DOM ──────────────────────────────────────────────────────────────────
+    const $ = id => document.getElementById(id);
+    const elSetupModal = $('setup-modal');
+    const elApiKeyInput = $('api-key-input');
 
     // ── FORMATTERS ───────────────────────────────────────────────────────────
     function fmtPrice(n) {
       if (n == null || isNaN(n)) return '--';
-      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    function fmtVolume(n) {
-      if (n == null || isNaN(n)) return '--';
-      if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B';
-      if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
-      if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
-      return n.toLocaleString('en-US');
+      return '$' + (+n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
     // ── UI HELPERS ───────────────────────────────────────────────────────────
-    function showLoading(v)  { elLoadingOverlay.classList.toggle('hidden', !v); }
-    function showError(msg)  { elErrorMessage.textContent = msg; elErrorBanner.classList.remove('hidden'); }
-    function hideError()     { elErrorBanner.classList.add('hidden'); }
+    function showLoading(v) { $('loading-overlay').classList.toggle('hidden', !v); }
+    function showError(msg) { $('error-message').textContent = msg; $('error-banner').classList.remove('hidden'); }
+    function hideError()    { $('error-banner').classList.add('hidden'); }
 
     function setAccentColor(isUp) {
-      const hex = isUp ? '#00c853' : '#f44336';
       document.documentElement.style.setProperty('--accent-active', isUp ? 'var(--accent-up)' : 'var(--accent-down)');
-      document.querySelectorAll('.range-btn.active').forEach(btn => {
-        btn.style.background = hex; btn.style.borderColor = hex;
-      });
     }
 
-    // ── API ───────────────────────────────────────────────────────────────────
-    async function apiFetch(path) {
-      const url = `${TD_BASE}${path}&apikey=${TD_KEY}`;
-      const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
-      if (!res.ok) throw new Error(`HTTP ${res.status} from Twelve Data`);
-      const data = await res.json();
-      if (data.status === 'error') throw new Error(data.message || 'API error');
-      return data;
-    }
-
+    // ── FETCH ─────────────────────────────────────────────────────────────────
     async function fetchQuote() {
-      return apiFetch(`/quote?symbol=${TICKER}`);
+      const res = await fetch(
+        `${FINNHUB_BASE}/quote?symbol=${TICKER}&token=${FINNHUB_KEY}`,
+        { signal: AbortSignal.timeout(8000) }
+      );
+      if (!res.ok) throw new Error(`HTTP ${res.status} from Finnhub`);
+      return res.json();
+      // Returns: { c: current, d: change, dp: changePct, h: high, l: low, o: open, pc: prevClose }
     }
 
-    async function fetchTimeSeries(range) {
-      const { interval, outputsize } = RANGE_SERIES[range];
-      const data = await apiFetch(`/time_series?symbol=${TICKER}&interval=${interval}&outputsize=${outputsize}`);
-      // Twelve Data returns newest-first — reverse for chronological chart
-      const values = [...data.values].reverse();
-      return {
-        labels: values.map(v => v.datetime),
-        closes: values.map(v => parseFloat(v.close)),
-      };
-    }
+    // ── UPDATE UI ─────────────────────────────────────────────────────────────
+    function updateUI(q) {
+      const isUp = q.d >= 0;
+      const sign = isUp ? '+' : '';
 
-    // ── UI UPDATERS ──────────────────────────────────────────────────────────
-    function updateHeader(q) {
-      const price      = parseFloat(q.close);
-      const change     = parseFloat(q.change);
-      const changePct  = parseFloat(q.percent_change);
-      const isUp       = change >= 0;
-      const sign       = isUp ? '+' : '';
-
-      elCurrentPrice.textContent = fmtPrice(price);
-      elPriceChange.textContent  = `${sign}${fmtPrice(change)} (${sign}${changePct.toFixed(2)}%)`;
-      elPriceChange.className    = isUp ? 'up' : 'down';
-      elMarketStatus.textContent = q.is_market_open ? 'OPEN' : 'CLOSED';
-      elMarketStatus.className   = q.is_market_open ? 'open' : 'closed';
-      elLastUpdated.textContent  = 'Updated ' + new Date().toLocaleTimeString();
+      // Header
+      $('current-price').textContent = fmtPrice(q.c);
+      $('price-change').textContent  = `${sign}${fmtPrice(q.d)} (${sign}${q.dp.toFixed(2)}%)`;
+      $('price-change').className    = isUp ? 'up' : 'down';
+      $('last-updated').textContent  = 'Updated ' + new Date().toLocaleTimeString();
       setAccentColor(isUp);
-      return isUp;
+
+      // Metric cards
+      $('m-open').textContent       = fmtPrice(q.o);
+      $('m-prev-close').textContent = fmtPrice(q.pc);
+      $('m-high').textContent       = fmtPrice(q.h);
+      $('m-low').textContent        = fmtPrice(q.l);
+
+      // Add point to live chart history
+      const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+      history.times.push(now);
+      history.prices.push(q.c);
+
+      // Cap history length
+      if (history.times.length > MAX_HISTORY_PTS) {
+        history.times.shift();
+        history.prices.shift();
+      }
+
+      renderChart(isUp);
     }
 
-    function updateMetricCards(q) {
-      elOpenPrice.textContent  = fmtPrice(parseFloat(q.open));
-      elPrevClose.textContent  = fmtPrice(parseFloat(q.previous_close));
-      elDayHigh.textContent    = fmtPrice(parseFloat(q.high));
-      elDayLow.textContent     = fmtPrice(parseFloat(q.low));
-      elVolume.textContent     = fmtVolume(parseInt(q.volume));
-      elAvgVolume.textContent  = fmtVolume(parseInt(q.average_volume));
-      elWk52High.textContent   = fmtPrice(parseFloat(q.fifty_two_week?.high));
-      elWk52Low.textContent    = fmtPrice(parseFloat(q.fifty_two_week?.low));
-    }
-
-    // ── CHART ────────────────────────────────────────────────────────────────
-    function formatLabel(datetime) {
-      // datetime is "2024-01-15" for daily, "2024-01-15 09:30:00" for intraday
-      const d = new Date(datetime.length === 10 ? datetime + 'T12:00:00' : datetime);
-      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
-    }
-
-    function renderChart(labels, closes, isUp) {
-      const ctx   = document.getElementById('price-chart').getContext('2d');
+    // ── CHART ─────────────────────────────────────────────────────────────────
+    function renderChart(isUp) {
+      const ctx   = $('price-chart').getContext('2d');
       const color = isUp ? '#00c853' : '#f44336';
-      const grad  = ctx.createLinearGradient(0, 0, 0, 320);
-      grad.addColorStop(0, color + '35');
+      const grad  = ctx.createLinearGradient(0, 0, 0, 300);
+      grad.addColorStop(0, color + '40');
       grad.addColorStop(1, color + '00');
 
-      const cfg = {
+      if (chartInstance) {
+        // Update in-place for smoother animation
+        chartInstance.data.labels               = [...history.times];
+        chartInstance.data.datasets[0].data     = [...history.prices];
+        chartInstance.data.datasets[0].borderColor     = color;
+        chartInstance.data.datasets[0].backgroundColor = grad;
+        chartInstance.update('none'); // 'none' = no animation on update
+        return;
+      }
+
+      chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: labels.map(formatLabel),
+          labels: [...history.times],
           datasets: [{
-            data: closes, borderColor: color, borderWidth: 2,
+            data: [...history.prices],
+            borderColor: color, borderWidth: 2,
             backgroundColor: grad, fill: true, tension: 0.2,
             pointRadius: 0, pointHoverRadius: 5,
             pointHoverBackgroundColor: color,
@@ -416,113 +326,75 @@
         options: {
           responsive: true, maintainAspectRatio: false,
           interaction: { mode: 'index', intersect: false },
+          animation: { duration: 400 },
           plugins: {
             legend: { display: false },
             tooltip: {
               backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', borderWidth: 1,
               titleColor: '#808080', bodyColor: '#f0f0f0', padding: 10,
-              callbacks: { label: c => ` $${c.parsed.y != null ? c.parsed.y.toFixed(2) : 'N/A'}` },
+              callbacks: { label: c => ` $${c.parsed.y.toFixed(2)}` },
             },
           },
           scales: {
             x: {
               grid: { color: '#1a1a1a' }, border: { color: '#2a2a2a' },
-              ticks: { color: '#606060', maxTicksLimit: 8, maxRotation: 0, font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 } },
+              ticks: { color: '#606060', maxTicksLimit: 6, maxRotation: 0, font: { size: 11 } },
             },
             y: {
               position: 'right', grid: { color: '#1a1a1a' }, border: { color: '#2a2a2a' },
-              ticks: { color: '#606060', font: { family: 'SF Mono, Consolas, Menlo, monospace', size: 11 }, callback: v => '$' + v.toFixed(0) },
+              ticks: { color: '#606060', font: { size: 11 }, callback: v => '$' + v.toFixed(2) },
             },
           },
         },
-      };
-
-      if (chartInstance) chartInstance.destroy();
-      chartInstance = new Chart(ctx, cfg);
+      });
     }
 
-    // ── LOAD FUNCTIONS ───────────────────────────────────────────────────────
-    // Full load: quote + chart (used on initial load and range changes)
-    async function loadAll() {
-      if (!TD_KEY) return;
-      showLoading(true); hideError();
+    // ── LOAD ──────────────────────────────────────────────────────────────────
+    async function load(showSpinner = true) {
+      if (!FINNHUB_KEY) return;
+      if (showSpinner) { showLoading(true); hideError(); }
       try {
-        const [quote, series] = await Promise.all([fetchQuote(), fetchTimeSeries(currentRange)]);
-        const isUp = updateHeader(quote);
-        updateMetricCards(quote);
-        renderChart(series.labels, series.closes, isUp);
+        const quote = await fetchQuote();
+        updateUI(quote);
+        hideError();
       } catch (err) {
         showError('Failed to load data: ' + err.message);
         console.error(err);
       } finally {
-        showLoading(false);
+        if (showSpinner) showLoading(false);
       }
     }
 
-    // Lightweight refresh: quote only (no chart re-fetch) — runs every 2 min
-    async function refreshQuote() {
-      if (!TD_KEY) return;
-      try {
-        const quote = await fetchQuote();
-        updateHeader(quote);
-        updateMetricCards(quote);
-      } catch (err) {
-        console.error('Quote refresh error:', err);
-      }
-    }
-
-    // Range button click: fetch new chart data + update price
-    async function loadChart() {
-      if (!TD_KEY) return;
-      try {
-        const [quote, series] = await Promise.all([fetchQuote(), fetchTimeSeries(currentRange)]);
-        const isUp = updateHeader(quote);
-        updateMetricCards(quote);
-        renderChart(series.labels, series.closes, isUp);
-      } catch (err) {
-        showError('Chart load failed: ' + err.message);
-      }
-    }
-
-    // ── SETUP MODAL ──────────────────────────────────────────────────────────
-    elSaveKeyBtn.addEventListener('click', () => {
+    // ── SETUP MODAL ───────────────────────────────────────────────────────────
+    $('save-key-btn').addEventListener('click', () => {
       const key = elApiKeyInput.value.trim();
       if (!key) { elApiKeyInput.focus(); return; }
-      TD_KEY = key;
-      localStorage.setItem('tdApiKey', key);
+      FINNHUB_KEY = key;
+      localStorage.setItem('finnhubApiKey', key);
       elSetupModal.classList.add('hidden');
-      clearInterval(quoteTimer);
-      loadAll();
-      quoteTimer = setInterval(refreshQuote, QUOTE_REFRESH_MS);
+      history.times.length = 0;
+      history.prices.length = 0;
+      if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+      clearInterval(refreshTimer);
+      load();
+      refreshTimer = setInterval(() => load(false), REFRESH_MS);
     });
 
-    elApiKeyInput.addEventListener('keydown', e => { if (e.key === 'Enter') elSaveKeyBtn.click(); });
+    elApiKeyInput.addEventListener('keydown', e => { if (e.key === 'Enter') $('save-key-btn').click(); });
 
-    elSettingsBtn.addEventListener('click', () => {
-      elApiKeyInput.value = TD_KEY;
+    $('settings-btn').addEventListener('click', () => {
+      elApiKeyInput.value = FINNHUB_KEY;
       elSetupModal.classList.remove('hidden');
       elApiKeyInput.focus();
     });
 
-    // ── RANGE BUTTONS ────────────────────────────────────────────────────────
-    document.querySelectorAll('.range-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.range-btn').forEach(b => {
-          b.classList.remove('active'); b.style.background = ''; b.style.borderColor = '';
-        });
-        btn.classList.add('active');
-        currentRange = btn.dataset.range;
-        loadChart();
-      });
-    });
+    $('retry-btn').addEventListener('click', () => { hideError(); load(); });
 
-    document.getElementById('retry-btn').addEventListener('click', () => { hideError(); loadAll(); });
-
-    // ── INIT ─────────────────────────────────────────────────────────────────
-    if (TD_KEY) {
+    // ── INIT ──────────────────────────────────────────────────────────────────
+    if (FINNHUB_KEY) {
       elSetupModal.classList.add('hidden');
-      loadAll();
-      quoteTimer = setInterval(refreshQuote, QUOTE_REFRESH_MS);
+      load();
+      refreshTimer = setInterval(() => load(false), REFRESH_MS);
     }
   </script>
 
